@@ -1,18 +1,18 @@
 version: '3.7'
 services:
-  db:
-    image: mariadb:10
-    ports:
-     - "3306:3306"
-    restart: always
-    volumes:
-     - ".mariadb-data/db:/var/lib/mysql"
-    env_file:
-     - './mariadb.env'
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 10s
-      retries: 10
+#  db:
+#    image: mariadb:10
+#    ports:
+#     - "3306:3306"
+#    restart: always
+#    volumes:
+#     - ".mariadb-data/db:/var/lib/mysql"
+#    env_file:
+#     - './mariadb.env'
+#    healthcheck:
+#      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+#      timeout: 10s
+#      retries: 10
 
   grafana:
     image: grafana/grafana:6.7.3-ubuntu
@@ -24,5 +24,17 @@ services:
      - ".grafana-data:/var/lib/grafana"
     env_file:
      - './grafana.env'
-    depends_on:
-     - db
+    links:
+     - influxdb
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+      - "8090:8090"
+    env_file:
+      - 'influx.env'
+    volumes:
+      - ".influx-data:/var/lib/influxdb"
