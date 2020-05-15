@@ -1,18 +1,11 @@
 version: '3.7'
 services:
-#  db:
-#    image: mariadb:10
-#    ports:
-#     - "3306:3306"
-#    restart: always
-#    volumes:
-#     - ".mariadb-data/db:/var/lib/mysql"
-#    env_file:
-#     - './mariadb.env'
-#    healthcheck:
-#      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-#      timeout: 10s
-#      retries: 10
+  speedtest:
+    image: payback159/stm:latest
+    env_file:
+     - './speedtest.env'
+    links:
+     - influxdb
 
   grafana:
     image: grafana/grafana:6.7.3-ubuntu

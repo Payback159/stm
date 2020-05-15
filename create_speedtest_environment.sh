@@ -2,25 +2,21 @@
 
 set -eo pipefail
 
-FILE=speedtest
-DATA_FILE=speedtest-data.csv
-
-function setup_python_environment {
-  python3 -m venv ./venv
-  ./venv/bin/pip install speedtest-cli influxdb datetime
-}
-
-
-if [ python3 --version ]; then
-  sudo apt install python3-venv
-  setup_python_environment
-else
-  sudo apt install python3 --yes
-  sudo apt install python3-venv
-  setup_python_environment
+# Determine OS platform
+UNAME=$(uname | tr "[:upper:]" "[:lower:]")
+# If Linux, try to determine specific distribution
+if [ "$UNAME" == "linux" ]; then
+    # If available, use LSB to identify distribution
+    if [ -f /etc/lsb-release -o -d /etc/lsb-release.d ]; then
+        DISTRO=$(lsb_release -i | cut -d: -f2 | sed s/'^\t'//)
+    fi
 fi
 
-exit 0
-
-echo "Executing docker compose"
-docker-compose up -d
+if [ "${DISTRO}" == "Ubuntu" ]; then
+  if docker version && docker-compose --version && systemctl is-active docker.service; then
+    docker-compose up -d
+  else
+    sudo apt install --yes docker.io docker-compose
+    sudo systemctl enable --now docker
+  fi
+fi
