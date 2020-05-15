@@ -1,5 +1,12 @@
-# stm
-speedtest-monitoring
+# Speedtest Monitoring (stm)
+
+## Grafana
+
+DataSource InfluxDB
+
+```bash
+http://influxdb:8086
+```
 
 ## Checking Services
 
