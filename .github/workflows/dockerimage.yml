@@ -3,8 +3,12 @@ name: Docker Image CI
 on:
   push:
     branches: [ master ]
+    paths:
+    - 'speedtest-app/**'
   pull_request:
     branches: [ master ]
+    paths:
+    - 'speedtest-app/**'
 
 jobs:
 
