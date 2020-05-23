@@ -2,6 +2,7 @@ version: '3.7'
 services:
   speedtest:
     image: payback159/stm:latest
+    restart: always
     env_file:
      - './speedtest.env'
     links:
@@ -22,6 +23,7 @@ services:
 
   influxdb:
     image: influxdb:latest
+    restart: always
     container_name: influxdb
     ports:
       - "8083:8083"
