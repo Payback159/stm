@@ -9,7 +9,7 @@ services:
      - influxdb
 
   grafana:
-    image: grafana/grafana:6.7.3-ubuntu
+    image: grafana/grafana:7.3.2-ubuntu
     ports:
      - "80:3000"
      - "443:3000"
